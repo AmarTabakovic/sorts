@@ -27,11 +27,11 @@ export default {
   },
   computed: {
     lineList: function () {
-      return this.randomizeArray();
+      return this.returnRandomizedArray();
     },
   },
   methods: {
-    randomizeArray() {
+    returnRandomizedArray() {
       var list = [];
       for (var i = 0; i < this.listSize; i++) {
         var numberToAdd = 1 + Math.floor(Math.random() * this.listSize);
