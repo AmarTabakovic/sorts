@@ -16,10 +16,10 @@ export default {
 
 <style lang="scss" scoped>
 .line {
-  background-color: #e5e9f0;
+  background-color: var(--color-line);
   width: 5px;
   border-left: 2px solid;
   border-right: 2px solid;
-  border-color: #434c5e;
+  border-color: var(--color-line-list);
 }
 </style>

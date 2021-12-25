@@ -1,9 +1,14 @@
 <template>
-  <h1>
-    <a href=""> Sorts</a>
-  </h1>
+  <div id="header">
+    <dark-theme-switcher></dark-theme-switcher>
+  </div>
+  <div id="main">
+    <h1>
+      <a href=""> Sorts</a>
+    </h1>
 
-  <line-list />
+    <line-list />
+  </div>
   <div id="footer">
     <p id="disclaimer">{{ new Date().getFullYear() }} Amar Tabakovic</p>
   </div>
@@ -11,35 +16,45 @@
 
 <script>
 import LineList from "./components/LineList.vue";
+import DarkThemeSwitcher from "./components/DarkThemeSwitcher.vue";
 
 export default {
   name: "App",
   components: {
     LineList,
+    DarkThemeSwitcher,
   },
 };
 </script>
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+@import "./css/variables.css";
 
 body {
-  background-color: #2e3440;
+  background-color: var(--color-background);
+}
+
+#header {
+  text-align: right;
 }
 
 #app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   font-family: Inter, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #e5e9f0;
-  margin: 60px 20px;
+  color: var(--color-font);
+  margin: 60px 40px;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
-  color: white;
+  color: var(--color-font);
   font-size: 27pt;
 
   a {
@@ -55,7 +70,7 @@ h1 {
   width: 100%;
   position: fixed;
   bottom: 0;
-  background-color: #2e3440;
+  background-color: var(--color-background);
 }
 
 #disclaimer {
