@@ -8,10 +8,14 @@
     >
     </my-line>
   </div>
-
-  <a v-on:click="selectionSort">Selection sort</a>
-  <a v-on:click="selectionSort">Bubble sort</a>
-  <a v-on:click="randomizeArray">Randomize array</a>
+  <div id="links-list">
+    <div id="algorithms-list">
+      <a v-on:click="selectionSort">Selection sort</a>
+      <a v-on:click="selectionSort">Bubble sort</a>
+      <a></a>
+    </div>
+    <a v-on:click="randomizeArray">Randomize array</a>
+  </div>
 </template>
 
 <script>
@@ -26,6 +30,7 @@ export default {
     return {
       listSize: 72,
       lineList: [],
+      isSorting: false,
     };
   },
   created() {
@@ -62,7 +67,7 @@ export default {
       }
     },
     async bubbleSort() {
-      for(var i = 0; i < this.listSize - 1; i++) {
+      for (var i = 0; i < this.listSize - 1; i++) {
         for (var j = 0; j < this.listSize - i - 1; j++) {
           if (this.lineList[j] > this.lineList[j + 1]) {
             var temp = this.lineList[j];
@@ -73,6 +78,7 @@ export default {
         await this.sleep();
       }
     },
+    async quickSort() {},
     randomizeArray() {
       this.lineList = this.returnRandomizedArray(this.listSize);
     },
@@ -85,6 +91,7 @@ export default {
 
 <style scoped lang="scss">
 #line-list {
+  margin-top: 50px;
   height: 600px;
   width: 1000px;
   background-color: #434c5e;
@@ -92,6 +99,20 @@ export default {
   flex-direction: row;
   align-items: flex-end;
 }
+
+#links-list {
+  margin-top: 20px;
+  width: 1000px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#algorithms-list {
+  width: 500px;
+  display: flex;
+  justify-content: space-between;
+}
+
 a {
   color: #d8dee9;
   &:hover {
