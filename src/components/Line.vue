@@ -1,5 +1,5 @@
 <template>
-  <div class="line"/>
+  <div class="line" />
 </template>
 
 <script>
@@ -17,12 +17,8 @@ export default {
 <style lang="scss" scoped>
 .line {
   background-color: var(--color-line);
-  width: 1px;
   border-left: 1px solid;
   border-right: 1px solid;
   border-color: var(--color-line-list);
-
-  color: black;
 }
-
 </style>

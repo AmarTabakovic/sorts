@@ -2,8 +2,8 @@
   <div id="line-list">
     <my-line
       v-for="(line, index) in lineList"
-      :height="line"
       :key="index"
+      :height="height"
       :style="{
         height: `${line * heightMultiplier}px`,
         width: `${(999 - 2 * listSize) / listSize}px`,
@@ -37,7 +37,7 @@
     <div id="options-list">
       <a v-on:click="!isSorting ? randomizeArray() : ''">Randomize array</a>
       <div>
-        <b><p style="margin-top: 0">Delay</p></b>
+        <b><p>Delay</p></b>
         <div class="slider-container">
           <input
             type="range"
@@ -215,11 +215,13 @@ export default {
         if (pivotIndex - 1 > start) {
           stack.push(start);
           stack.push(pivotIndex - 1);
+
         }
 
         if (pivotIndex + 1 < end) {
           stack.push(pivotIndex + 1);
           stack.push(end);
+
         }
       }
       this.isSorting = false;
@@ -235,7 +237,6 @@ export default {
           await this.sleep();
         }
       }
-
       [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]];
       return pivotIndex;
     },
@@ -448,7 +449,7 @@ export default {
   display: flex;
   flex-direction: column;
   * {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
 }
 
@@ -459,7 +460,7 @@ export default {
 
   * {
     flex: 0 0 33.333333%;
-    margin-bottom: 25px;
+    height: 1.5em;
   }
 }
 

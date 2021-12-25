@@ -21,4 +21,5 @@
     - Comments
     - Proper variable naming
     - Extract reused functionality in separate methods (e.g. swap)
+    - Put components in separate `.vue` files (e.g. algorithm list, options, etc.)
     
