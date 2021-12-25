@@ -19,12 +19,17 @@
       <a v-on:click="!isSorting && !isSorted ? insertionSort() : ''"
         >Insertion sort</a
       >
+      <a v-on:click="!isSorting && !isSorted ? heapSort() : ''">Heap sort</a>
       <a v-on:click="!isSorting && !isSorted ? mergeSort() : ''">Merge sort</a>
       <a v-on:click="!isSorting && !isSorted ? quickSort() : ''">Quick sort</a>
-      <!------ Work in Progress ------>
       <a v-on:click="!isSorting && !isSorted ? radixSort() : ''">Radix sort</a>
-
       <a v-on:click="!isSorting && !isSorted ? gnomeSort() : ''">Gnome sort</a>
+      <a v-on:click="!isSorting && !isSorted ? cocktailShakerSort() : ''"
+        >Cocktail shaker sort</a
+      >
+      <a v-on:click="!isSorting && !isSorted ? oddEvenSort() : ''"
+        >Odd-Even sort</a
+      >
     </div>
     <a v-on:click="!isSorting ? randomizeArray() : ''">Randomize array</a>
   </div>
@@ -51,9 +56,9 @@ export default {
   },
   methods: {
     returnRandomizedArray(size) {
-      var list = [];
-      for (var i = 0; i < this.listSize; i++) {
-        var numberToAdd = 1 + Math.floor(Math.random() * size);
+      let list = [];
+      for (let i = 0; i < this.listSize; i++) {
+        let numberToAdd = 1 + Math.floor(Math.random() * size);
         while (list.includes(numberToAdd)) {
           numberToAdd = 1 + Math.floor(Math.random() * size);
         }
@@ -64,16 +69,16 @@ export default {
     },
     async selectionSort() {
       this.isSorting = true;
-      for (var i = 0; i < this.listSize - 1; i++) {
-        var min = i;
-        for (var j = i + 1; j < this.listSize; j++) {
+      for (let i = 0; i < this.listSize - 1; i++) {
+        let min = i;
+        for (let j = i + 1; j < this.listSize; j++) {
           if (this.lineList[j] < this.lineList[min]) {
             min = j;
           }
         }
 
         if (min != i) {
-          var temp = this.lineList[i];
+          let temp = this.lineList[i];
           this.lineList[i] = this.lineList[min];
           this.lineList[min] = temp;
         }
@@ -84,11 +89,11 @@ export default {
     },
     async insertionSort() {
       this.isSorting = true;
-      var i = 1;
+      let i = 1;
       while (i < this.listSize) {
-        var j = i;
+        let j = i;
         while (j > 0 && this.lineList[j - 1] > this.lineList[j]) {
-          var temp = this.lineList[j];
+          let temp = this.lineList[j];
           this.lineList[j] = this.lineList[j - 1];
           this.lineList[j - 1] = temp;
           j--;
@@ -99,12 +104,51 @@ export default {
       this.isSorting = false;
       this.isSorted = true;
     },
+    async heapify(n, node) {
+      let largest = node;
+      let l = 2 * node + 1;
+      let r = 2 * node + 2;
+
+      if (l < n && this.lineList[l] > this.lineList[largest]) {
+        largest = l;
+      }
+
+      if (r < n && this.lineList[r] > this.lineList[largest]) {
+        largest = r;
+      }
+
+      if (largest != node) {
+        let temp = this.lineList[node];
+        this.lineList[node] = this.lineList[largest];
+        this.lineList[largest] = temp;
+      }
+
+      this.heapify(n, largest);
+    },
+    async heapSort() {
+      this.isSorting = true;
+      for (let i = Math.floor(this.listSize / 2) - 1; i >= 0; i--) {
+        this.heapify(this.listSize, i);
+        await this.sleep();
+      }
+
+      for (let i = this.listSize - 1; i > 0; i--) {
+        let temp = this.lineList[0];
+        this.lineList[0] = this.lineList[i];
+        this.lineList[i] = temp;
+
+        this.heapify(i, 0);
+        await this.sleep();
+      }
+      this.isSorting = false;
+      this.isSorted = true;
+    },
     async bubbleSort() {
       this.isSorting = true;
-      for (var i = 0; i < this.listSize - 1; i++) {
-        for (var j = 0; j < this.listSize - i - 1; j++) {
+      for (let i = 0; i < this.listSize - 1; i++) {
+        for (let j = 0; j < this.listSize - i - 1; j++) {
           if (this.lineList[j] > this.lineList[j + 1]) {
-            var temp = this.lineList[j];
+            let temp = this.lineList[j];
             this.lineList[j] = this.lineList[j + 1];
             this.lineList[j + 1] = temp;
           }
@@ -117,16 +161,16 @@ export default {
     // Credits to: https://stackabuse.com/quicksort-in-javascript/
     async quickSort() {
       this.isSorting = true;
-      var stack = [];
+      let stack = [];
 
       stack.push(0);
       stack.push(this.listSize - 1);
 
       while (stack[stack.length - 1] >= 0) {
-        var end = stack.pop();
-        var start = stack.pop();
+        let end = stack.pop();
+        let start = stack.pop();
 
-        var pivotIndex = await this.partition(this.lineList, start, end);
+        let pivotIndex = await this.partition(this.lineList, start, end);
 
         if (pivotIndex - 1 > start) {
           stack.push(start);
@@ -166,83 +210,82 @@ export default {
       if (l >= r) {
         return;
       }
-      var m = l + parseInt((r - l) / 2);
+      let m = l + parseInt((r - l) / 2);
 
       await this.mergeSortRec(l, m);
       await this.mergeSortRec(m + 1, r);
       await this.merge(l, m, r);
     },
     async merge(l, m, r) {
-      var n1 = m - l + 1;
-      var n2 = r - m;
+      let n1 = m - l + 1;
+      let n2 = r - m;
 
-      var L = new Array(n1);
-      var R = new Array(n2);
+      let L = new Array(n1);
+      let R = new Array(n2);
 
-      for (var i = 0; i < n1; i++) {
+      for (let i = 0; i < n1; i++) {
         L[i] = this.lineList[l + i];
       }
-      for (var j = 0; j < n2; j++) {
-        R[j] = this.lineList[m + 1 + j];
+      for (let i = 0; i < n2; i++) {
+        R[i] = this.lineList[m + 1 + i];
       }
 
-      var x = 0;
-      var y = 0;
-      var k = l;
+      let i = 0;
+      let j = 0;
+      let k = l;
 
-      while (x < n1 && y < n2) {
-        if (L[x] <= R[y]) {
-          this.lineList[k] = L[x];
-          x++;
+      while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+          this.lineList[k] = L[i];
+          i++;
         } else {
-          this.lineList[k] = R[y];
-          y++;
+          this.lineList[k] = R[j];
+          j++;
         }
         k++;
         await this.sleep();
       }
 
-      while (x < n1) {
-        this.lineList[k] = L[x];
-        x++;
+      while (i < n1) {
+        this.lineList[k] = L[i];
+        i++;
         k++;
       }
 
-      while (y < n2) {
-        this.lineList[k] = R[y];
-        y++;
+      while (j < n2) {
+        this.lineList[k] = R[j];
+        j++;
         k++;
       }
     },
     // Credits to: https://www.geeksforgeeks.org/radix-sort/
     async countSort(exp) {
-      var i;
-      var out = new Array(this.listSize);
-      var count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      let out = new Array(this.listSize);
+      let count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-      for (i = 0; i < this.listSize; i++) {
-        count[Math.floor(this.lineList[i] / exp) % 10]++;
+      for (let i = 0; i < this.listSize; i++) {
+        count[Math.floor(this.lineList[i] / exp) % 2]++;
       }
 
-      for (i = 1; i < 10; i++) {
+      for (let i = 1; i < 10; i++) {
         count[i] += count[i - 1];
       }
 
-      for (i = this.listSize - 1; i >= 0; i--) {
-        out[count[Math.floor(this.lineList[i] / exp) % 10] - 1] =
+      for (let i = this.listSize - 1; i >= 0; i--) {
+        out[count[Math.floor(this.lineList[i] / exp) % 2] - 1] =
           this.lineList[i];
-        count[Math.floor(this.lineList[i] / exp) % 10]--;
+        count[Math.floor(this.lineList[i] / exp) % 2]--;
       }
 
-      for (i = 0; i < this.listSize; i++) {
+      for (let i = 0; i < this.listSize; i++) {
         this.lineList[i] = out[i];
         await this.sleep();
       }
     },
     async radixSort() {
       this.isSorting = true;
-      var max = this.listSize;
-      for (var exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+      let max = this.listSize;
+      for (let exp = 1; Math.floor(max / exp) > 0; exp *= 2) {
         await this.countSort(exp);
         await this.sleep();
       }
@@ -251,17 +294,84 @@ export default {
     },
     async gnomeSort() {
       this.isSorting = true;
-      var i = 0;
+      let i = 0;
       while (i < this.listSize) {
         if (i == 0 || this.lineList[i] >= this.lineList[i - 1]) {
           i++;
         } else {
-          var temp = this.lineList[i];
+          let temp = this.lineList[i];
           this.lineList[i] = this.lineList[i - 1];
           this.lineList[i - 1] = temp;
           i--;
           await this.sleep();
         }
+      }
+      this.isSorting = false;
+      this.isSorted = true;
+    },
+    async cocktailShakerSort() {
+      this.isSorting = true;
+      let swapped = true;
+      let start = 0;
+      let end = this.listSize;
+      while (swapped) {
+        swapped = false;
+        for (let i = 0; i < end - 1; ++i) {
+          if (this.lineList[i] > this.lineList[i + 1]) {
+            let temp = this.lineList[i];
+            this.lineList[i] = this.lineList[i + 1];
+            this.lineList[i + 1] = temp;
+            swapped = true;
+            await this.sleep();
+          }
+        }
+        if (swapped == false) {
+          break;
+        }
+
+        end--;
+
+        for (let i = end - 1; i >= start; i--) {
+          if (this.lineList[i] > this.lineList[i + 1]) {
+            let temp = this.lineList[i];
+            this.lineList[i] = this.lineList[i + 1];
+            this.lineList[i + 1] = temp;
+            swapped = true;
+            await this.sleep();
+          }
+        }
+
+        start++;
+      }
+      this.isSorting = false;
+      this.isSorted = true;
+    },
+    async oddEvenSort() {
+      this.isSorting = true;
+
+      let sorted = false;
+
+      while (!sorted) {
+        sorted = true;
+        for (let i = 1; i < this.listSize - 1; i += 2) {
+          if (this.lineList[i] > this.lineList[i + 1]) {
+            let temp = this.lineList[i];
+            this.lineList[i] = this.lineList[i + 1];
+            this.lineList[i + 1] = temp;
+            sorted = false;
+            await this.sleep();
+          }
+        }
+        for (let i = 0; i < this.listSize - 1; i += 2) {
+          if (this.lineList[i] > this.lineList[i + 1]) {
+            let temp = this.lineList[i];
+            this.lineList[i] = this.lineList[i + 1];
+            this.lineList[i + 1] = temp;
+            sorted = false;
+            await this.sleep();
+          }
+        }
+        await this.sleep();
       }
       this.isSorting = false;
       this.isSorted = true;
