@@ -1,5 +1,5 @@
 <template>
-  <div class="line"></div>
+  <div class="line"/>
 </template>
 
 <script>
@@ -21,5 +21,8 @@ export default {
   border-left: 1px solid;
   border-right: 1px solid;
   border-color: var(--color-line-list);
+
+  color: black;
 }
+
 </style>

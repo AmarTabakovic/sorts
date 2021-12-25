@@ -4,7 +4,10 @@
       v-for="(line, index) in lineList"
       :height="line"
       :key="index"
-      :style="{ height: `${line * 1.8}px` }"
+      :style="{
+        height: `${line * heightMultiplier}px`,
+        width: `${(999 - 2 * listSize) / listSize}px`,
+      }"
     >
     </my-line>
   </div>
@@ -35,14 +38,25 @@
       <a v-on:click="!isSorting ? randomizeArray() : ''">Randomize array</a>
       <div>
         <b><p style="margin-top: 0">Delay</p></b>
-        <div id="slider-container">
+        <div class="slider-container">
           <input
             type="range"
-            id="delay"
+            class="slider"
             name="delay"
             min="1"
             max="100"
             v-model="delay"
+          />
+        </div>
+        <b><p style="margin-top: 0">Size</p></b>
+        <div class="slider-container">
+          <input
+            type="range"
+            class="slider"
+            name="size"
+            min="50"
+            max="333"
+            v-model="listSize"
           />
         </div>
       </div>
@@ -60,12 +74,20 @@ export default {
   },
   data() {
     return {
+      minListSize: 50,
+      maxListSize: 333,
       listSize: 333,
       lineList: [],
       isSorting: false,
       isSorted: false,
+      heightMultiplier: 1.8,
       delay: 25,
     };
+  },
+  watch: {
+    listSize: function () {
+      this.randomizeArray();
+    },
   },
   created() {
     this.lineList = this.returnRandomizedArray(this.listSize);
@@ -447,11 +469,11 @@ a {
   }
 }
 
-#slider-container {
+.slider-container {
   width: 100%;
 }
 
-#delay {
+.slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
