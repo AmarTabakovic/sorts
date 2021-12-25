@@ -14,6 +14,7 @@
   
     --color-background: var(--white);
     --color-font: var(--darkest);
+    --color-link: var(--darker);
     --color-line-list: var(--light);
     --color-line: var(--least-dark);
   }
@@ -21,6 +22,7 @@
   .dark-theme {
     --color-background: var(--darkest);
     --color-font: var(--white);
+    --color-link: var(--light);
     --color-line-list: var(--less-dark);
     --color-line: var(--white);
   }

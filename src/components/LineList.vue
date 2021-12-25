@@ -4,7 +4,7 @@
       v-for="(line, index) in lineList"
       :height="line"
       :key="index"
-      :style="{ height: `${line * 5.3}px` }"
+      :style="{ height: `${line * 1.8}px` }"
     >
     </my-line>
   </div>
@@ -31,7 +31,22 @@
         >Odd-Even sort</a
       >
     </div>
-    <a v-on:click="!isSorting ? randomizeArray() : ''">Randomize array</a>
+    <div id="options-list">
+      <a v-on:click="!isSorting ? randomizeArray() : ''">Randomize array</a>
+      <div>
+        <b><p style="margin-top: 0">Delay</p></b>
+        <div id="slider-container">
+          <input
+            type="range"
+            id="delay"
+            name="delay"
+            min="1"
+            max="100"
+            v-model="delay"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -45,10 +60,11 @@ export default {
   },
   data() {
     return {
-      listSize: 111,
+      listSize: 333,
       lineList: [],
       isSorting: false,
       isSorted: false,
+      delay: 25,
     };
   },
   created() {
@@ -380,7 +396,7 @@ export default {
       this.lineList = this.returnRandomizedArray(this.listSize);
     },
     sleep() {
-      return new Promise((resolve) => setTimeout(resolve, 25));
+      return new Promise((resolve) => setTimeout(resolve, this.delay));
     },
   },
 };
@@ -404,6 +420,14 @@ export default {
   justify-content: space-between;
 }
 
+#options-list {
+  display: flex;
+  flex-direction: column;
+  * {
+    margin-bottom: 25px;
+  }
+}
+
 #algorithms-list {
   width: 500px;
   display: flex;
@@ -416,8 +440,45 @@ export default {
 }
 
 a {
-  color: var(--color-font);
+  color: var(--color-link);
+  text-decoration: underline;
   &:hover {
+    cursor: pointer;
+  }
+}
+
+#slider-container {
+  width: 100%;
+}
+
+#delay {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 15px;
+  background: var(--least-dark);
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 15px;
+    background: var(--darker);
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: 25px;
+    height: 15px;
+    background: var(--darker);
     cursor: pointer;
   }
 }
