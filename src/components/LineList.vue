@@ -14,8 +14,11 @@
       <a v-on:click="insertionSort">Insertion sort</a>
       <a v-on:click="bubbleSort">Bubble sort</a>
       <a v-on:click="quickSort">Quick sort</a>
+      <a v-on:click="mergeSort(0, listSize - 1)">Merge sort</a>
+      <!------ Work in Progress ------>
+      <!--<a v-on:click="radixSort">Radix sort</a>-->
     </div>
-    <a v-on:click="randomizeArray()">Randomize array</a>
+    <a v-on:click="randomizeArray">Randomize array</a>
   </div>
 </template>
 
@@ -104,10 +107,7 @@ export default {
         var end = stack.pop();
         var start = stack.pop();
 
-        var pivotIndex = this.partition(this.lineList, start, end);
-
-        // Maybe?
-        // await this.sleep();
+        var pivotIndex = await this.partition(this.lineList, start, end);
 
         if (pivotIndex - 1 > start) {
           stack.push(start);
@@ -118,21 +118,110 @@ export default {
           stack.push(pivotIndex + 1);
           stack.push(end);
         }
-        await this.sleep();
       }
     },
-    partition(arr, start, end) {
+    async partition(arr, start, end) {
       const pivotValue = arr[end];
       let pivotIndex = start;
       for (let i = start; i < end; i++) {
         if (arr[i] < pivotValue) {
           [arr[i], arr[pivotIndex]] = [arr[pivotIndex], arr[i]];
           pivotIndex++;
+          await this.sleep();
         }
       }
 
       [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]];
       return pivotIndex;
+    },
+    async mergeSort(l, r) {
+      if (l >= r) {
+        return;
+      }
+      var m = l + parseInt((r - l) / 2);
+
+      await this.mergeSort(l, m);
+      await this.mergeSort(m + 1, r);
+      await this.merge(l, m, r);
+    },
+    // Credits to: https://www.geeksforgeeks.org/merge-sort/
+    async merge(l, m, r) {
+      var n1 = m - l + 1;
+      var n2 = r - m;
+
+      var L = new Array(n1);
+      var R = new Array(n2);
+
+      for (var i = 0; i < n1; i++) {
+        L[i] = this.lineList[l + i];
+      }
+      for (var j = 0; j < n2; j++) {
+        R[j] = this.lineList[m + 1 + j];
+      }
+
+      var x = 0;
+      var y = 0;
+      var k = l;
+
+      while (x < n1 && y < n2) {
+        if (L[x] <= R[y]) {
+          this.lineList[k] = L[x];
+          x++;
+        } else {
+          this.lineList[k] = R[y];
+          y++;
+        }
+        k++;
+        await this.sleep();
+      }
+
+      while (x < n1) {
+        this.lineList[k] = L[x];
+        x++;
+        k++;
+      }
+
+      while (y < n2) {
+        this.lineList[k] = R[y];
+        y++;
+        k++;
+      }
+    },
+    async returnMax() {
+      var max = this.lineList[0];
+      for (var i = 1; i < this.listSize; i++) {
+        if (this.listSize[i] > max) {
+          max = this.listSize[i];
+        }
+      }
+      return max;
+    },
+    countSort(exp) {
+      var out = [];
+      var count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+      for (var i = 0; i < this.listSize; i++) {
+        count[(this.lineList[i] / exp) % 10]++;
+      }
+
+      for (var j = 1; j < 10; j++) {
+        count[j] += count[j - 1];
+      }
+
+      for (var k = this.listSize - 1; k >= 0; k--) {
+        out[count[(this.lineList[k] / exp) % 10] - 1] = this.lineList[k];
+        count[(this.lineList[k] / exp) % 10]--;
+      }
+
+      for (var l = 0; l < this.listSize; l++) {
+        this.lineList[l] = out[l];
+      }
+    },
+    async radixSort() {
+      for (var exp = 1; this.returnMax() / exp > 0; exp *= 10) {
+        this.countSort(exp);
+        await this.sleep();
+      }
     },
     randomizeArray() {
       this.lineList = this.returnRandomizedArray(this.listSize);
@@ -165,7 +254,13 @@ export default {
 #algorithms-list {
   width: 500px;
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
+  flex-wrap: wrap;
+
+  * {
+    flex: 0 0 33.333333%;
+    margin-bottom: 25px;
+  }
 }
 
 a {
