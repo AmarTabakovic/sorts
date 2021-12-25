@@ -1,4 +1,5 @@
 <template>
+    <h1>Sorts</h1>
   <line-list />
 </template>
 
@@ -14,12 +15,15 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  background-color: #2e3440;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: #e5e9f0;
   margin-top: 60px;
 }
 </style>

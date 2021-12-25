@@ -1,15 +1,17 @@
 <template>
   <div id="line-list">
     <my-line
-      v-for="index in lineList"
-      :height="index"
+      v-for="(line, index) in lineList"
+      :height="line"
       :key="index"
-      v-model="lineList[index]"
+      :style="{ height: `${line * 8.3}px` }"
     >
-      {{ index }}
     </my-line>
   </div>
-  <p v-on:click="selectionSort">Selection sort</p>
+
+  <a v-on:click="selectionSort">Selection sort</a>
+  <a v-on:click="selectionSort">Bubble sort</a>
+  <a v-on:click="randomizeArray">Randomize array</a>
 </template>
 
 <script>
@@ -22,27 +24,27 @@ export default {
   },
   data() {
     return {
-      listSize: 42,
+      listSize: 72,
+      lineList: [],
     };
   },
-  computed: {
-    lineList: function () {
-      return this.returnRandomizedArray();
-    },
+  created() {
+    this.lineList = this.returnRandomizedArray(this.listSize);
   },
   methods: {
-    returnRandomizedArray() {
+    returnRandomizedArray(size) {
       var list = [];
       for (var i = 0; i < this.listSize; i++) {
-        var numberToAdd = 1 + Math.floor(Math.random() * this.listSize);
+        var numberToAdd = 1 + Math.floor(Math.random() * size);
         while (list.includes(numberToAdd)) {
-          numberToAdd = 1 + Math.floor(Math.random() * this.listSize);
+          numberToAdd = 1 + Math.floor(Math.random() * size);
         }
         list.push(numberToAdd);
       }
       return list;
     },
-    selectionSort() {
+    async selectionSort() {
+      console.log("Selection sort");
       for (var i = 0; i < this.listSize - 1; i++) {
         var min = i;
         for (var j = i + 1; j < this.listSize; j++) {
@@ -56,10 +58,26 @@ export default {
           this.lineList[i] = this.lineList[min];
           this.lineList[min] = temp;
         }
-
-        console.log("Selection sort");
-        console.log(this.lineList);
+        await this.sleep();
       }
+    },
+    async bubbleSort() {
+      for(var i = 0; i < this.listSize - 1; i++) {
+        for (var j = 0; j < this.listSize - i - 1; j++) {
+          if (this.lineList[j] > this.lineList[j + 1]) {
+            var temp = this.lineList[j];
+            this.lineList[j] = this.lineList[j + 1];
+            this.lineList[j + 1] = temp;
+          }
+        }
+        await this.sleep();
+      }
+    },
+    randomizeArray() {
+      this.lineList = this.returnRandomizedArray(this.listSize);
+    },
+    sleep() {
+      return new Promise((resolve) => setTimeout(resolve, 100));
     },
   },
 };
@@ -69,9 +87,15 @@ export default {
 #line-list {
   height: 600px;
   width: 1000px;
-  background-color: grey;
+  background-color: #434c5e;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+}
+a {
+  color: #d8dee9;
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>

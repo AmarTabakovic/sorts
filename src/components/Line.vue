@@ -1,6 +1,5 @@
 <template>
-  <div id="line" :style="cssVariables">
-    {{ height }}
+  <div class="line">
   </div>
 </template>
 
@@ -10,13 +9,6 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    cssVariables() {
-      return {
-        "--height": this.height,
-      };
-    },
-  },
   props: {
     height: Number,
   },
@@ -24,11 +16,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#line {
-  background-color: white;
-  height: calc(var(--height) * 14px);
-  width: 20px;
-  margin-left: 2px;
-  margin-right: 2px;
+.line {
+  background-color: #e5e9f0;
+  width: 10px;
+  border-left: 2px solid;
+  border-right:2px solid;
+  border-color: grey;
+  //margin-left: 2px;
+  //margin-right: 2px;
 }
 </style>
