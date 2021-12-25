@@ -14,7 +14,6 @@
       <a v-on:click="insertionSort">Insertion sort</a>
       <a v-on:click="bubbleSort">Bubble sort</a>
       <a v-on:click="quickSort">Quick sort</a>
-      <a></a>
     </div>
     <a v-on:click="randomizeArray()">Randomize array</a>
   </div>
@@ -68,6 +67,20 @@ export default {
         await this.sleep();
       }
     },
+    async insertionSort() {
+      var i = 1;
+      while (i < this.listSize) {
+        var j = i;
+        while (j > 0 && this.lineList[j - 1] > this.lineList[j]) {
+          var temp = this.lineList[j];
+          this.lineList[j] = this.lineList[j - 1];
+          this.lineList[j - 1] = temp;
+          j--;
+        }
+        i++;
+        await this.sleep();
+      }
+    },
     async bubbleSort() {
       for (var i = 0; i < this.listSize - 1; i++) {
         for (var j = 0; j < this.listSize - i - 1; j++) {
@@ -85,7 +98,7 @@ export default {
       var stack = [];
 
       stack.push(0);
-      stack.push(this.lineList.length - 1);
+      stack.push(this.listSize - 1);
 
       while (stack[stack.length - 1] >= 0) {
         var end = stack.pop();
@@ -125,7 +138,7 @@ export default {
       this.lineList = this.returnRandomizedArray(this.listSize);
     },
     sleep() {
-      return new Promise((resolve) => setTimeout(resolve, 50));
+      return new Promise((resolve) => setTimeout(resolve, 25));
     },
   },
 };

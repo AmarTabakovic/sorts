@@ -1,7 +1,7 @@
 # TODO
 ## Algorithms
-- [ ] Insertion sort
-- [ ] Quicksort
+- [x] Insertion sort
+- [x] Quicksort
 - [ ] Mergesort
 - [ ] Heapsort
 - [ ] Radix sort (LSD)
