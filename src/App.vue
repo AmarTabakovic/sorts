@@ -2,7 +2,7 @@
   <h1>Sorts</h1>
   <line-list />
   <div id="footer">
-    <p id="disclaimer">2021 Amar Tabakovic</p>
+    <p id="disclaimer">{{ new Date().getFullYear() }} Amar Tabakovic</p>
   </div>
 </template>
 

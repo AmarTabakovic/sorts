@@ -21,7 +21,5 @@ export default {
   border-left: 2px solid;
   border-right: 2px solid;
   border-color: #434c5e;
-  //margin-left: 2px;
-  //margin-right: 2px;
 }
 </style>
