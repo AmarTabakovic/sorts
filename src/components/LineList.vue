@@ -80,9 +80,13 @@ export default {
       lineList: [],
       isSorting: false,
       isSorted: false,
-      heightMultiplier: 1.8,
       delay: 25,
     };
+  },
+  computed: {
+    heightMultiplier: function () {
+      return 600 / this.listSize;
+    },
   },
   watch: {
     listSize: function () {
