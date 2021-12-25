@@ -74,13 +74,11 @@ export default {
   },
   data() {
     return {
-      minListSize: 50,
-      maxListSize: 333,
-      listSize: 333,
+      listSize: 191,
       lineList: [],
       isSorting: false,
       isSorted: false,
-      delay: 25,
+      delay: 50,
     };
   },
   computed: {
