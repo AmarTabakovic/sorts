@@ -4,17 +4,19 @@
       v-for="(line, index) in lineList"
       :height="line"
       :key="index"
-      :style="{ height: `${line * 8.3}px` }"
+      :style="{ height: `${line * 5.3}px` }"
     >
     </my-line>
   </div>
   <div id="links-list">
     <div id="algorithms-list">
       <a v-on:click="selectionSort">Selection sort</a>
-      <a v-on:click="selectionSort">Bubble sort</a>
+      <a v-on:click="insertionSort">Insertion sort</a>
+      <a v-on:click="bubbleSort">Bubble sort</a>
+      <a v-on:click="quickSort">Quick sort</a>
       <a></a>
     </div>
-    <a v-on:click="randomizeArray">Randomize array</a>
+    <a v-on:click="randomizeArray()">Randomize array</a>
   </div>
 </template>
 
@@ -28,7 +30,7 @@ export default {
   },
   data() {
     return {
-      listSize: 72,
+      listSize: 111,
       lineList: [],
       isSorting: false,
     };
@@ -78,12 +80,52 @@ export default {
         await this.sleep();
       }
     },
-    async quickSort() {},
+    // Credits to: https://stackabuse.com/quicksort-in-javascript/
+    async quickSort() {
+      var stack = [];
+
+      stack.push(0);
+      stack.push(this.lineList.length - 1);
+
+      while (stack[stack.length - 1] >= 0) {
+        var end = stack.pop();
+        var start = stack.pop();
+
+        var pivotIndex = this.partition(this.lineList, start, end);
+
+        // Maybe?
+        // await this.sleep();
+
+        if (pivotIndex - 1 > start) {
+          stack.push(start);
+          stack.push(pivotIndex - 1);
+        }
+
+        if (pivotIndex + 1 < end) {
+          stack.push(pivotIndex + 1);
+          stack.push(end);
+        }
+        await this.sleep();
+      }
+    },
+    partition(arr, start, end) {
+      const pivotValue = arr[end];
+      let pivotIndex = start;
+      for (let i = start; i < end; i++) {
+        if (arr[i] < pivotValue) {
+          [arr[i], arr[pivotIndex]] = [arr[pivotIndex], arr[i]];
+          pivotIndex++;
+        }
+      }
+
+      [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]];
+      return pivotIndex;
+    },
     randomizeArray() {
       this.lineList = this.returnRandomizedArray(this.listSize);
     },
     sleep() {
-      return new Promise((resolve) => setTimeout(resolve, 100));
+      return new Promise((resolve) => setTimeout(resolve, 50));
     },
   },
 };

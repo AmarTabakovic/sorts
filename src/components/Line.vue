@@ -17,7 +17,7 @@ export default {
 <style lang="scss" scoped>
 .line {
   background-color: #e5e9f0;
-  width: 10px;
+  width: 5px;
   border-left: 2px solid;
   border-right: 2px solid;
   border-color: #434c5e;

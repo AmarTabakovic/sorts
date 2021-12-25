@@ -1,5 +1,8 @@
 <template>
-  <h1>Sorts</h1>
+  <h1>
+    <a href=""> Sorts</a>
+  </h1>
+
   <line-list />
   <div id="footer">
     <p id="disclaimer">{{ new Date().getFullYear() }} Amar Tabakovic</p>
@@ -25,9 +28,9 @@ body {
 }
 
 #app {
-  //display: flex;
-  //flex-direction: column;
-  //align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-family: Inter, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -38,6 +41,12 @@ body {
 h1 {
   color: white;
   font-size: 27pt;
+
+  a {
+    list-style: none;
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 #footer {
@@ -46,7 +55,7 @@ h1 {
   width: 100%;
   position: fixed;
   bottom: 0;
-  background-color: var(--color-background);
+  background-color: #2e3440;
 }
 
 #disclaimer {
