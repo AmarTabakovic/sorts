@@ -114,6 +114,7 @@ export default {
         for (let j = i + 1; j < this.listSize; j++) {
           if (this.lineList[j] < this.lineList[min]) {
             min = j;
+            await this.sleep();
           }
         }
 
@@ -121,8 +122,8 @@ export default {
           let temp = this.lineList[i];
           this.lineList[i] = this.lineList[min];
           this.lineList[min] = temp;
+          await this.sleep();
         }
-        await this.sleep();
       }
       this.isSorting = false;
       this.isSorted = true;
@@ -137,9 +138,9 @@ export default {
           this.lineList[j] = this.lineList[j - 1];
           this.lineList[j - 1] = temp;
           j--;
+          await this.sleep();
         }
         i++;
-        await this.sleep();
       }
       this.isSorting = false;
       this.isSorted = true;
@@ -191,9 +192,9 @@ export default {
             let temp = this.lineList[j];
             this.lineList[j] = this.lineList[j + 1];
             this.lineList[j + 1] = temp;
+            await this.sleep();
           }
         }
-        await this.sleep();
       }
       this.isSorting = false;
       this.isSorted = true;
@@ -215,13 +216,11 @@ export default {
         if (pivotIndex - 1 > start) {
           stack.push(start);
           stack.push(pivotIndex - 1);
-
         }
 
         if (pivotIndex + 1 < end) {
           stack.push(pivotIndex + 1);
           stack.push(end);
-
         }
       }
       this.isSorting = false;
