@@ -6,8 +6,10 @@
     <h1>
       <a href=""> Sorts</a>
     </h1>
-
-    <line-list />
+    <div id="line-list-wrapper">
+      <line-list />
+    </div>
+    <p id="mobile-message">There is currently no support for mobile devices.</p>
   </div>
   <div id="footer">
     <p id="disclaimer">{{ new Date().getFullYear() }} Amar Tabakovic</p>
@@ -75,5 +77,21 @@ h1 {
 
 #disclaimer {
   font-size: 9pt;
+}
+
+#mobile-message {
+  display: none;
+  text-align: center;
+  padding-top: 30px;
+}
+
+@media screen and (max-width: 999px) {
+  #line-list-wrapper {
+    display: none;
+  }
+
+  #mobile-message {
+    display: block;
+  }
 }
 </style>
