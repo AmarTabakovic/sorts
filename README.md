@@ -1,24 +1,17 @@
-# sorts
+# Sorts
+A sorting algorithm visualizer written in Vue.
 
-## Project setup
+![Preview](docs/preview.gif)
+
+You can access this under [sorts.amartabakovic.ch](https://sorts.amartabakovic.ch).
+
+## Set up
+### Set up project
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run server with hot-reload
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
