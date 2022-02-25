@@ -57,6 +57,7 @@
             min="50"
             max="333"
             v-model="listSize"
+            :disabled="isSorting"
           />
         </div>
       </div>
